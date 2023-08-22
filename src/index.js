@@ -1,2 +1,2 @@
-const h1 = document.querySelectorAll('h1');
-console.log(h1);
+import './styles.css';
+console.log('working');
