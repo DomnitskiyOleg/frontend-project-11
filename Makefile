@@ -1,0 +1,2 @@
+server: 
+	npx webpack serve

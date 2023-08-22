@@ -1,10 +1,15 @@
 {
-  "name": "@hexlet/code",
+  "name": "my-webpack-project",
   "version": "1.0.0",
-  "description": "RSS AGREGATOR",
+  "description": "My webpack project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -15,5 +20,18 @@
   "bugs": {
     "url": "https://github.com/DomnitskiyOleg/frontend-project-11/issues"
   },
-  "homepage": "https://github.com/DomnitskiyOleg/frontend-project-11#readme"
+  "homepage": "https://github.com/DomnitskiyOleg/frontend-project-11#readme",
+  "devDependencies": {
+    "@babel/generator": "^7.22.9",
+    "@webpack-cli/generators": "^3.0.7",
+    "eslint": "^8.46.0",
+    "html-webpack-plugin": "^5.5.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.1",
+    "workbox-webpack-plugin": "^7.0.0"
+  }
 }
