@@ -1,2 +1,4 @@
 import './styles.css';
-console.log('working');
+import app from './app.js';
+
+app();
