@@ -2,6 +2,8 @@ import watch from './view.js';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import resources from './locales/index.js';
+import axios from 'axios';
+import parse from './parser.js';
 
 yup.setLocale({
   mixed: {
@@ -49,20 +51,14 @@ const app = () => {
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
         const schema = getSchema(state.urls);
-        console.log(watchedState);
         schema
           .validate(url)
-          .then(() => {
-            watchedState.urls.push(url);
-            watchedState.feedbackMessage = 'feedbackMessages.rssAdded';
-            watchedState.valid = true;
-          })
           .catch((e) => {
             watchedState.feedbackMessage = e.message;
             watchedState.valid = false;
           })
+          .then(() => axios.get(url).then(console.log))
           .finally(() => {
-            console.log(state.urls);
             watchedState.formStatus = 'checking';
             watchedState.formStatus = 'filling';
           });
