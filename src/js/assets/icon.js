@@ -1,4 +1,4 @@
-import Icon from '../icons/icon.png';
+import Icon from '../../icons/icon.png';
 
 export default () => {
   const head = document.querySelector('head');

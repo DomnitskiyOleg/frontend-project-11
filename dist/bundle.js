@@ -205,25 +205,47 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/js/app.js":
-/*!***********************!*\
-  !*** ./src/js/app.js ***!
-  \***********************/
+/***/ "./src/js/app/app.js":
+/*!***************************!*\
+  !*** ./src/js/app/app.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _view_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view.js */ \"./src/js/view.js\");\n/* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! yup */ \"./node_modules/yup/index.esm.js\");\n/* harmony import */ var i18next__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! i18next */ \"./node_modules/i18next/dist/esm/i18next.js\");\n/* harmony import */ var _locales_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./locales/index.js */ \"./src/js/locales/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ \"./node_modules/axios/lib/axios.js\");\n\n\n\n\n\n\nyup__WEBPACK_IMPORTED_MODULE_1__.setLocale({\n  mixed: {\n    notOneOf: () => 'feedbackMessages.rssExist',\n  },\n  string: {\n    url: () => 'feedbackMessages.rssInvalid',\n  },\n});\n\nconst getSchema = (urls) => yup__WEBPACK_IMPORTED_MODULE_1__.string().trim().url().notOneOf(urls);\n\nconst app = () => {\n  const elements = {\n    header: document.querySelector('h1'),\n    leader: document.querySelector('.lead'),\n    example: document.querySelector('.example'),\n    input: document.querySelector('#url-input'),\n    label: document.querySelector('form label'),\n    submitButton: document.querySelector('[type=\"submit\"]'),\n    form: document.querySelector('.rss-form'),\n    feedback: document.querySelector('.feedback'),\n  };\n\n  const state = {\n    formStatus: null,\n    valid: null,\n    feedbackMessage: null,\n    urls: [],\n  };\n\n  const i18n = i18next__WEBPACK_IMPORTED_MODULE_2__[\"default\"].createInstance();\n\n  i18n\n    .init({\n      lng: 'ru',\n      debug: true,\n      resources: _locales_index_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n    })\n    .then(() => {\n      const watchedState = (0,_view_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(state, elements, i18n);\n\n      elements.form.addEventListener('submit', (e) => {\n        e.preventDefault();\n        const formData = new FormData(e.target);\n        const url = formData.get('url').trim();\n        const schema = getSchema(state.urls);\n        schema\n          .validate(url)\n          .catch((e) => {\n            watchedState.feedbackMessage = e.message;\n            watchedState.valid = false;\n          })\n          .then(() => axios__WEBPACK_IMPORTED_MODULE_4__[\"default\"].get(url).then(console.log))\n          .finally(() => {\n            watchedState.formStatus = 'checking';\n            watchedState.formStatus = 'filling';\n          });\n      });\n    });\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (app);\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _view_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view.js */ \"./src/js/app/view.js\");\n/* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! yup */ \"./node_modules/yup/index.esm.js\");\n/* harmony import */ var i18next__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! i18next */ \"./node_modules/i18next/dist/esm/i18next.js\");\n/* harmony import */ var _locales_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../locales/index.js */ \"./src/js/locales/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ \"./node_modules/axios/lib/axios.js\");\n/* harmony import */ var _parsing_parser_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../parsing/parser.js */ \"./src/js/parsing/parser.js\");\n/* harmony import */ var _getProxyUrl_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../getProxyUrl.js */ \"./src/js/getProxyUrl.js\");\n\n\n\n\n\n\n\n\nyup__WEBPACK_IMPORTED_MODULE_1__.setLocale({\n  mixed: {\n    notOneOf: () => 'feedbackMessages.rssExist',\n  },\n  string: {\n    url: () => 'feedbackMessages.rssInvalid',\n  },\n});\n\nconst getSchema = (urls) => yup__WEBPACK_IMPORTED_MODULE_1__.string().trim().url().notOneOf(urls);\n\nconst app = () => {\n  const elements = {\n    header: document.querySelector('h1'),\n    leader: document.querySelector('.lead'),\n    example: document.querySelector('.example'),\n    input: document.querySelector('#url-input'),\n    label: document.querySelector('form label'),\n    submitButton: document.querySelector('[type=\"submit\"]'),\n    form: document.querySelector('.rss-form'),\n    feedback: document.querySelector('.feedback'),\n  };\n\n  const state = {\n    formStatus: null,\n    valid: null,\n    feedbackMessage: null,\n    urls: [],\n  };\n\n  const i18n = i18next__WEBPACK_IMPORTED_MODULE_2__[\"default\"].createInstance();\n\n  i18n\n    .init({\n      lng: 'ru',\n      debug: true,\n      resources: _locales_index_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"],\n    })\n    .then(() => {\n      const watchedState = (0,_view_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(state, elements, i18n);\n\n      elements.form.addEventListener('submit', (e) => {\n        e.preventDefault();\n        const formData = new FormData(e.target);\n        const url = formData.get('url').trim();\n        const schema = getSchema(state.urls);\n        schema\n          .validate(url)\n          .then(() => axios__WEBPACK_IMPORTED_MODULE_6__[\"default\"].get((0,_getProxyUrl_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(url)))\n          .then((response) => {\n            (0,_parsing_parser_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(response.data.contents, 'xml');\n          })\n          .finally(() => {\n            watchedState.formStatus = 'checking';\n            watchedState.formStatus = 'filling';\n          });\n      });\n    });\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (app);\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/app/app.js?");
 
 /***/ }),
 
-/***/ "./src/js/icon.js":
-/*!************************!*\
-  !*** ./src/js/icon.js ***!
-  \************************/
+/***/ "./src/js/app/view.js":
+/*!****************************!*\
+  !*** ./src/js/app/view.js ***!
+  \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _icons_icon_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../icons/icon.png */ \"./src/icons/icon.png\");\n\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {\r\n  const head = document.querySelector('head');\r\n  const iconTag = document.createElement('link');\r\n  iconTag.rel = 'icon';\r\n  iconTag.href = _icons_icon_png__WEBPACK_IMPORTED_MODULE_0__;\r\n  head.appendChild(iconTag);\r\n});\r\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/icon.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var on_change__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! on-change */ \"./node_modules/on-change/index.js\");\n\r\n\r\nconst renderStaticTexts = (elements, i18n) => {\r\n  const { header, input, leader, example, submitButton, label } = elements;\r\n\r\n  header.textContent = i18n.t('header');\r\n  input.placeholder = i18n.t('label');\r\n  leader.textContent = i18n.t('leader');\r\n  example.textContent = i18n.t('example');\r\n  submitButton.textContent = i18n.t('submitButton');\r\n  label.textContent = i18n.t('label');\r\n};\r\n\r\nconst validateForm = (elements, state, i18n) => {\r\n  const { form, input, feedback } = elements;\r\n  switch (state.valid) {\r\n    case true:\r\n      input.classList.remove('is-invalid');\r\n      feedback.classList.replace('text-danger', 'text-success');\r\n      form.reset();\r\n      input.focus();\r\n      feedback.textContent = i18n.t(state.feedbackMessage);\r\n      break;\r\n    case false:\r\n      console.log(state.feedbackMessage);\r\n      input.classList.add('is-invalid');\r\n      feedback.textContent = i18n.t(state.feedbackMessage);\r\n      feedback.classList.replace('text-success', 'text-danger');\r\n      break;\r\n    default:\r\n      break;\r\n  }\r\n};\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((state, elements, i18n) => {\r\n  renderStaticTexts(elements, i18n);\r\n\r\n  const watchedState = (0,on_change__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(state, (path) => {\r\n    switch (path) {\r\n      case 'test':\r\n        break;\r\n      case 'formStatus':\r\n        validateForm(elements, state, i18n);\r\n        break;\r\n      default:\r\n        break;\r\n    }\r\n  });\r\n  return watchedState;\r\n});\r\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/app/view.js?");
+
+/***/ }),
+
+/***/ "./src/js/assets/icon.js":
+/*!*******************************!*\
+  !*** ./src/js/assets/icon.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _icons_icon_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../icons/icon.png */ \"./src/icons/icon.png\");\n\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {\r\n  const head = document.querySelector('head');\r\n  const iconTag = document.createElement('link');\r\n  iconTag.rel = 'icon';\r\n  iconTag.href = _icons_icon_png__WEBPACK_IMPORTED_MODULE_0__;\r\n  head.appendChild(iconTag);\r\n});\r\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/assets/icon.js?");
+
+/***/ }),
+
+/***/ "./src/js/getProxyUrl.js":
+/*!*******************************!*\
+  !*** ./src/js/getProxyUrl.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((url) =>\r\n  `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(\r\n    url,\r\n  )}`);\r\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/getProxyUrl.js?");
 
 /***/ }),
 
@@ -234,7 +256,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css_styles_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/styles.css */ \"./src/css/styles.css\");\n/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.js */ \"./src/js/app.js\");\n/* harmony import */ var _icon_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./icon.js */ \"./src/js/icon.js\");\n\n\n\n\n(0,_icon_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n(0,_app_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css_styles_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/styles.css */ \"./src/css/styles.css\");\n/* harmony import */ var _app_app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app/app.js */ \"./src/js/app/app.js\");\n/* harmony import */ var _assets_icon_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/icon.js */ \"./src/js/assets/icon.js\");\n\n\n\n\n(0,_assets_icon_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n(0,_app_app_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/index.js?");
 
 /***/ }),
 
@@ -260,14 +282,14 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/js/view.js":
-/*!************************!*\
-  !*** ./src/js/view.js ***!
-  \************************/
+/***/ "./src/js/parsing/parser.js":
+/*!**********************************!*\
+  !*** ./src/js/parsing/parser.js ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var on_change__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! on-change */ \"./node_modules/on-change/index.js\");\n\r\n\r\nconst renderStaticTexts = (elements, i18n) => {\r\n  const { header, input, leader, example, submitButton, label } = elements;\r\n\r\n  header.textContent = i18n.t('header');\r\n  input.placeholder = i18n.t('label');\r\n  leader.textContent = i18n.t('leader');\r\n  example.textContent = i18n.t('example');\r\n  submitButton.textContent = i18n.t('submitButton');\r\n  label.textContent = i18n.t('label');\r\n};\r\n\r\nconst validateForm = (elements, state, i18n) => {\r\n  const { form, input, feedback } = elements;\r\n  switch (state.valid) {\r\n    case true:\r\n      input.classList.remove('is-invalid');\r\n      feedback.classList.replace('text-danger', 'text-success');\r\n      form.reset();\r\n      input.focus();\r\n      feedback.textContent = i18n.t(state.feedbackMessage);\r\n      break;\r\n    case false:\r\n      console.log(state.feedbackMessage);\r\n      input.classList.add('is-invalid');\r\n      feedback.textContent = i18n.t(state.feedbackMessage);\r\n      feedback.classList.replace('text-success', 'text-danger');\r\n      break;\r\n    default:\r\n      break;\r\n  }\r\n};\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((state, elements, i18n) => {\r\n  renderStaticTexts(elements, i18n);\r\n\r\n  const watchedState = (0,on_change__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(state, (path) => {\r\n    switch (path) {\r\n      case 'test':\r\n        break;\r\n      case 'formStatus':\r\n        validateForm(elements, state, i18n);\r\n        break;\r\n      default:\r\n        break;\r\n    }\r\n  });\r\n  return watchedState;\r\n});\r\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/view.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst getRssObject = (htmlDom) => {\r\n  const feedHeader = htmlDom.querySelector('title').textContent;\r\n  const description = htmlDom.querySelector('description').textContent;\r\n  console.log(htmlDom);\r\n};\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((data, format) => {\r\n  const xmlParser = new DOMParser();\r\n\r\n  switch (format) {\r\n    case 'xml': {\r\n      const htmlDom = xmlParser.parseFromString(data, 'text/html');\r\n      getRssObject(htmlDom);\r\n      break;\r\n    }\r\n    default:\r\n      throw new Error(`Unknown data format ${format}`);\r\n  }\r\n});\r\n\n\n//# sourceURL=webpack://my-webpack-project/./src/js/parsing/parser.js?");
 
 /***/ }),
 

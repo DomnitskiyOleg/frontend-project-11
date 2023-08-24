@@ -1,9 +1,10 @@
 import watch from './view.js';
 import * as yup from 'yup';
 import i18next from 'i18next';
-import resources from './locales/index.js';
+import resources from '../locales/index.js';
 import axios from 'axios';
-import parse from './parser.js';
+import parse from '../parsing/parser.js';
+import getProxyUrl from '../getProxyUrl.js';
 
 yup.setLocale({
   mixed: {
@@ -53,11 +54,10 @@ const app = () => {
         const schema = getSchema(state.urls);
         schema
           .validate(url)
-          .catch((e) => {
-            watchedState.feedbackMessage = e.message;
-            watchedState.valid = false;
+          .then(() => axios.get(getProxyUrl(url)))
+          .then((response) => {
+            parse(response.data.contents, 'xml');
           })
-          .then(() => axios.get(url).then(console.log))
           .finally(() => {
             watchedState.formStatus = 'checking';
             watchedState.formStatus = 'filling';
