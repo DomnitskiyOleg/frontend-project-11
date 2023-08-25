@@ -4,6 +4,8 @@ export default {
       ru: 'Русский',
     },
     header: 'RSS агрегатор',
+    postsHeader: 'Посты',
+    feedsHeader: 'Фиды',
     leader: 'Начните читать RSS сегодня! Это легко, это красиво.',
     label: 'Ссылка RSS',
     example: 'Пример: https://ru.hexlet.io/lessons.rss',

@@ -27,6 +27,8 @@ const app = () => {
     submitButton: document.querySelector('[type="submit"]'),
     form: document.querySelector('.rss-form'),
     feedback: document.querySelector('.feedback'),
+    postsContainer: document.querySelector('.posts'),
+    feedsContainer: document.querySelector('.feeds'),
   };
 
   const state = {
@@ -34,6 +36,8 @@ const app = () => {
     valid: null,
     feedbackMessage: null,
     urls: [],
+    feeds: [],
+    posts: [],
   };
 
   const i18n = i18next.createInstance();
@@ -56,7 +60,18 @@ const app = () => {
           .validate(url)
           .then(() => axios.get(getProxyUrl(url)))
           .then((response) => {
-            parse(response.data.contents, 'xml');
+            const parsedData = parse(response.data.contents, 'xml');
+            const { feed, posts } = parsedData;
+            watchedState.feeds.push(feed);
+
+            const filteredPosts = state.posts.filter(
+              ({ id }) => id !== feed.id,
+            );
+            const newPosts = [...posts, ...filteredPosts];
+
+            watchedState.posts = newPosts;
+            watchedState.valid = true;
+            watchedState.feedbackMessage = 'feedbackMessages.rssAdded';
           })
           .finally(() => {
             watchedState.formStatus = 'checking';
