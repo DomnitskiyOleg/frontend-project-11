@@ -1,15 +1,14 @@
 const getRssObjectGenerator = () => {
   let id = 1;
 
-  return (htmlDom) => {
-    const feedHeader = htmlDom.querySelector('title').textContent;
-    const description = htmlDom.querySelector('description').textContent;
-    const items = htmlDom.querySelectorAll('item');
-
+  return (xmlDoc) => {
+    const feedHeader = xmlDoc.querySelector('title').textContent;
+    const description = xmlDoc.querySelector('description').textContent;
+    const items = xmlDoc.querySelectorAll('item');
     const posts = Array.from(items).map((item) => {
       const title = item.querySelector('title').textContent.trim();
       const description = item.querySelector('description').textContent.trim();
-      const link = item.querySelector('link').nextSibling;
+      const link = item.querySelector('link').textContent.trim();
       return { id, title, description, link };
     });
     const feed = { id, feedHeader, description };
@@ -25,8 +24,8 @@ export default (data, format) => {
 
   switch (format) {
     case 'xml': {
-      const htmlDom = xmlParser.parseFromString(data, 'text/html');
-      return generateObjectFromDom(htmlDom);
+      const xmlDom = xmlParser.parseFromString(data, 'text/xml');
+      return generateObjectFromDom(xmlDom);
     }
     default:
       throw new Error(`Unknown data format ${format}`);

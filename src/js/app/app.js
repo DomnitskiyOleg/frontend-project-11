@@ -38,6 +38,7 @@ const app = () => {
     urls: [],
     feeds: [],
     posts: [],
+    blockInputs: false,
   };
 
   const i18n = i18next.createInstance();
@@ -53,6 +54,7 @@ const app = () => {
 
       elements.form.addEventListener('submit', (e) => {
         e.preventDefault();
+        watchedState.blockInputs = true;
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
         const schema = getSchema(state.urls);
@@ -60,9 +62,11 @@ const app = () => {
           .validate(url)
           .then(() => axios.get(getProxyUrl(url)))
           .then((response) => {
+            console.log(response);
             const parsedData = parse(response.data.contents, 'xml');
             const { feed, posts } = parsedData;
             watchedState.feeds.push(feed);
+            state.urls.push(url);
 
             const filteredPosts = state.posts.filter(
               ({ id }) => id !== feed.id,
@@ -73,9 +77,14 @@ const app = () => {
             watchedState.valid = true;
             watchedState.feedbackMessage = 'feedbackMessages.rssAdded';
           })
+          .catch((e) => {
+            watchedState.valid = false;
+          })
           .finally(() => {
             watchedState.formStatus = 'checking';
             watchedState.formStatus = 'filling';
+            watchedState.blockInputs = false;
+            console.log(state);
           });
       });
     });

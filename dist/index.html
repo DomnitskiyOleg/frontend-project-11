@@ -19,7 +19,7 @@
                         <div class="col">
                             <div class="form-floating">
                                 <input class="form-control" autocomplete="off" autofocus required name="url"
-                                    id="url-input" placeholder="">
+                                    id="url-input" aria-label="url" placeholder="">
                                 <label for="url-input"></label>
                             </div>
                         </div>
@@ -34,8 +34,10 @@
             </div>
         </section>
         <section class="container-fluid container-xxl p-5">
-            <div class="col-md-10 col-lg-8 posts mx-auto"></div>
-            <div class="col-md-10 col-lg-4 feeds"></div>
+            <div class="row">
+                <div class="col-md-10 col-lg-8 posts mx-auto"></div>
+                <div class="col-md-10 col-lg-4 feeds"></div>
+            </div>
         </section>
     </main>
     <footer class="mt-5 py-3 border-top bg-light">

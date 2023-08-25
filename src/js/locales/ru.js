@@ -10,6 +10,7 @@ export default {
     label: 'Ссылка RSS',
     example: 'Пример: https://ru.hexlet.io/lessons.rss',
     submitButton: 'Добавить',
+    previewButton: 'Просмотр',
     feedbackMessages: {
       rssAdded: 'RSS успешно загружен',
       rssExist: 'RSS уже существует',
