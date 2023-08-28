@@ -6,12 +6,14 @@ const getPostsAndFeedGenerator = () => {
       const feedHeader = xmlDoc.querySelector('title').textContent;
       const description = xmlDoc.querySelector('description').textContent;
       const items = xmlDoc.querySelectorAll('item');
+
       const posts = Array.from(items).map((item) => {
         const title = item.querySelector('title').textContent.trim();
         const description = item
           .querySelector('description')
           .textContent.trim();
         const link = item.querySelector('link').textContent.trim();
+
         return { id, title, description, link };
       });
       const feed = { id, feedHeader, description };
@@ -23,6 +25,7 @@ const getPostsAndFeedGenerator = () => {
     }
   };
 };
+
 const generateObjectFromDom = getPostsAndFeedGenerator();
 
 export default (data, format) => {

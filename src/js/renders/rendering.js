@@ -89,31 +89,35 @@ export const renderStaticTexts = (elements, i18n) => {
   label.textContent = i18n.t('label');
 };
 
+const handleFeedback = (state, form, feedback, input, i18n) => {
+  switch (state.valid) {
+    case true:
+      feedback.classList.replace('text-danger', 'text-success');
+      form.reset();
+      input.focus();
+      feedback.textContent = i18n.t(state.feedbackMessage);
+      break;
+    case false:
+      {
+        const message = state.feedbackMessage;
+        if (message === 'feedbackMessages.urlInvalid') {
+          input.classList.add('is-invalid');
+        }
+        feedback.textContent = i18n.t(state.feedbackMessage);
+        feedback.classList.replace('text-success', 'text-danger');
+      }
+      break;
+    default:
+      break;
+  }
+};
+
 export const renderForm = (elements, state, i18n) => {
-  const { form, input, feedback, submitButton } = elements;
+  const { form, input, feedback } = elements;
 
   switch (state.formStatus) {
     case 'checked':
-      switch (state.valid) {
-        case true:
-          feedback.classList.replace('text-danger', 'text-success');
-          form.reset();
-          input.focus();
-          feedback.textContent = i18n.t(state.feedbackMessage);
-          break;
-        case false:
-          {
-            const message = state.feedbackMessage;
-            if (message === 'feedbackMessages.urlInvalid') {
-              input.classList.add('is-invalid');
-            }
-            feedback.textContent = i18n.t(state.feedbackMessage);
-            feedback.classList.replace('text-success', 'text-danger');
-          }
-          break;
-        default:
-          break;
-      }
+      handleFeedback(state, form, feedback, input, i18n);
       break;
     case 'checking':
       feedback.textContent = '';
