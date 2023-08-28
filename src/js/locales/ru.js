@@ -14,7 +14,10 @@ export default {
     feedbackMessages: {
       rssAdded: 'RSS успешно загружен',
       rssExist: 'RSS уже существует',
-      rssInvalid: 'Ссылка должна быть валидным URL',
+      urlInvalid: 'Ссылка должна быть валидным URL',
+      networkError: 'Ошибка сети',
+      rssInvalid: 'Ресурс не содержит валидный RSS',
+      unknownError: 'Неизвестная ошибка',
     },
   },
 };

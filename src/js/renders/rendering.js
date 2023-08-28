@@ -89,30 +89,41 @@ export const renderStaticTexts = (elements, i18n) => {
   label.textContent = i18n.t('label');
 };
 
-export const validateForm = (elements, state, i18n) => {
-  const { form, input, feedback } = elements;
+export const renderForm = (elements, state, i18n) => {
+  const { form, input, feedback, submitButton } = elements;
 
-  switch (state.valid) {
-    case true:
+  switch (state.formStatus) {
+    case 'checked':
+      switch (state.valid) {
+        case true:
+          feedback.classList.replace('text-danger', 'text-success');
+          form.reset();
+          input.focus();
+          feedback.textContent = i18n.t(state.feedbackMessage);
+          break;
+        case false:
+          {
+            const message = state.feedbackMessage;
+            if (message === 'feedbackMessages.urlInvalid') {
+              input.classList.add('is-invalid');
+            }
+            feedback.textContent = i18n.t(state.feedbackMessage);
+            feedback.classList.replace('text-success', 'text-danger');
+          }
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'checking':
+      feedback.textContent = '';
       input.classList.remove('is-invalid');
-      feedback.classList.replace('text-danger', 'text-success');
-      form.reset();
-      input.focus();
-      feedback.textContent = i18n.t(state.feedbackMessage);
-      break;
-    case false:
-      input.classList.add('is-invalid');
-      feedback.textContent = i18n.t(state.feedbackMessage);
-      feedback.classList.replace('text-success', 'text-danger');
-      break;
-    default:
       break;
   }
 };
 
-export const renderAvailability = (elements, value) => {
+export const renderSubmitInputAvailability = (elements, value) => {
   const { input, submitButton } = elements;
   input.readOnly = value;
   submitButton.disabled = value;
-  console.log(value);
 };

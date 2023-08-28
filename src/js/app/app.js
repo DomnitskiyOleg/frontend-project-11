@@ -5,13 +5,14 @@ import resources from '../locales/index.js';
 import axios from 'axios';
 import parse from '../parsing/parser.js';
 import getProxyUrl from '../getProxyUrl.js';
+import getErrorMessage from '../handle errors/getErrorMessage.js';
 
 yup.setLocale({
   mixed: {
-    notOneOf: () => 'feedbackMessages.rssExist',
+    notOneOf: () => 'rssExist',
   },
   string: {
-    url: () => 'feedbackMessages.rssInvalid',
+    url: () => 'urlInvalid',
   },
 });
 
@@ -55,6 +56,8 @@ const app = () => {
       elements.form.addEventListener('submit', (e) => {
         e.preventDefault();
         watchedState.blockInputs = true;
+        watchedState.formStatus = 'checking';
+
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
         const schema = getSchema(state.urls);
@@ -79,12 +82,13 @@ const app = () => {
           })
           .catch((e) => {
             watchedState.valid = false;
+            const feedbackMessage = getErrorMessage(e.message);
+            watchedState.feedbackMessage = feedbackMessage;
           })
           .finally(() => {
-            watchedState.formStatus = 'checking';
+            watchedState.formStatus = 'checked';
             watchedState.formStatus = 'filling';
             watchedState.blockInputs = false;
-            console.log(state);
           });
       });
     });
