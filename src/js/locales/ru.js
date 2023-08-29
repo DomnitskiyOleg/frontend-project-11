@@ -17,7 +17,7 @@ export default {
       urlInvalid: 'Ссылка должна быть валидным URL',
       networkError: 'Ошибка сети',
       rssInvalid: 'Ресурс не содержит валидный RSS',
-      unknownError: 'Неизвестная ошибка',
+      unknownError: 'Неизвестная ошибка. Что-то пошло не так.',
     },
   },
 };

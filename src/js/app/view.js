@@ -20,8 +20,10 @@ export default (state, elements, i18n) => {
 
         break;
       case 'posts':
-        renderFeeds(state, elements, i18n);
         renderPosts(state, elements, i18n);
+        break;
+      case 'feeds':
+        renderFeeds(state, elements, i18n);
         break;
       default:
         break;

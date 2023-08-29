@@ -3,9 +3,10 @@ import * as yup from 'yup';
 import i18next from 'i18next';
 import resources from '../locales/index.js';
 import axios from 'axios';
-import parse from '../parsing/parser.js';
+import parse from '../utils/parser.js';
 import getProxyUrl from '../getProxyUrl.js';
 import getErrorMessage from '../handle errors/getErrorMessage.js';
+import { startPostsRefresher, stopPostsRefresher } from '../utils/postsRefresher.js';
 
 yup.setLocale({
   mixed: {
@@ -19,6 +20,7 @@ yup.setLocale({
 const getSchema = (urls) => yup.string().trim().url().notOneOf(urls);
 
 const app = () => {
+  const urls = [];
   const elements = {
     header: document.querySelector('h1'),
     leader: document.querySelector('.lead'),
@@ -36,13 +38,13 @@ const app = () => {
     formStatus: null,
     valid: null,
     feedbackMessage: null,
-    urls: [],
     feeds: [],
     posts: [],
     blockInputs: false,
   };
 
   const i18n = i18next.createInstance();
+  let id = 1;
 
   i18n
     .init({
@@ -55,30 +57,29 @@ const app = () => {
 
       elements.form.addEventListener('submit', (e) => {
         e.preventDefault();
+        stopPostsRefresher();
         watchedState.blockInputs = true;
         watchedState.formStatus = 'checking';
 
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
-        const schema = getSchema(state.urls);
+        const schema = getSchema(urls);
         schema
           .validate(url)
           .then(() => axios.get(getProxyUrl(url)))
           .then((response) => {
-            console.log(response);
-            const parsedData = parse(response.data.contents, 'xml');
+            const parsedData = parse(response.data.contents, 'xml', id);
             const { feed, posts } = parsedData;
-            watchedState.feeds.push(feed);
-            state.urls.push(url);
+            watchedState.feeds.push({ ...feed, url });
+            urls.push(url);
 
-            const filteredPosts = state.posts.filter(
-              ({ id }) => id !== feed.id,
-            );
-            const newPosts = [...posts, ...filteredPosts];
+            const newPosts = [...posts, ...state.posts];
 
             watchedState.posts = newPosts;
             watchedState.valid = true;
             watchedState.feedbackMessage = 'feedbackMessages.rssAdded';
+            id += 1;
+            startPostsRefresher(watchedState.posts, watchedState.feeds);
           })
           .catch((e) => {
             watchedState.valid = false;
