@@ -1,13 +1,13 @@
-import watch from './view.js';
+import axios from 'axios';
 import * as yup from 'yup';
 import i18next from 'i18next';
+import watch from './view.js';
 import resources from '../locales/index.js';
-import axios from 'axios';
 import parse from '../utils/parser.js';
 import getProxyUrl from '../utils/getProxyUrl.js';
 import getErrorMessage from '../handle errors/getErrorMessage.js';
 import { startPostsRefresher, stopPostsRefresher } from '../utils/postsRefresher.js';
-import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 yup.setLocale({
   mixed: {
