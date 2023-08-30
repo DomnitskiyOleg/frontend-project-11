@@ -34,7 +34,6 @@ export const renderFeeds = (state, elements, i18n) => {
 
 export const renderPosts = (state, elements, i18n) => {
   const { postsContainer } = elements;
-
   const postsHeader = document.createElement('h2');
   const postsCard = document.createElement('div');
   const postsCardBody = document.createElement('div');
@@ -46,8 +45,7 @@ export const renderPosts = (state, elements, i18n) => {
   postsCardBody.classList.add('card-body');
   postsUl.classList.add('list-group', 'border-0', 'rounded-0');
 
-  state.posts.forEach(({ title, description, link }) => {
-    let id = 1;
+  state.posts.forEach(({ title, link, id }) => {
     const li = document.createElement('li');
     li.classList.add(
       'd-flex',
@@ -62,15 +60,18 @@ export const renderPosts = (state, elements, i18n) => {
 
     a.classList.add('fw-bold');
     a.href = link;
-    a.dataId = id;
     a.textContent = title;
+    a.dataset.id = id;
 
     button.dataId = id;
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     button.textContent = i18n.t('previewButton');
+    button.dataset.id = id;
+    button.dataset.bsToggle = 'modal';
+    button.dataset.bsTarget = '#modal';
+    button.addEventListener('click', () => {});
     li.append(a, button);
     postsUl.append(li);
-    id += 1;
   });
 
   postsCardBody.append(postsHeader);
@@ -90,20 +91,20 @@ export const renderStaticTexts = (elements, i18n) => {
 };
 
 const handleFeedback = (state, form, feedback, input, i18n) => {
-  switch (state.valid) {
+  switch (state.formUi.valid) {
     case true:
       feedback.classList.replace('text-danger', 'text-success');
       form.reset();
       input.focus();
-      feedback.textContent = i18n.t(state.feedbackMessage);
+      feedback.textContent = i18n.t(state.formUi.feedbackMessage);
       break;
     case false:
       {
-        const message = state.feedbackMessage;
+        const message = state.formUi.feedbackMessage;
         if (message === 'feedbackMessages.urlInvalid') {
           input.classList.add('is-invalid');
         }
-        feedback.textContent = i18n.t(state.feedbackMessage);
+        feedback.textContent = i18n.t(state.formUi.feedbackMessage);
         feedback.classList.replace('text-success', 'text-danger');
       }
       break;
@@ -115,7 +116,7 @@ const handleFeedback = (state, form, feedback, input, i18n) => {
 export const renderForm = (elements, state, i18n) => {
   const { form, input, feedback } = elements;
 
-  switch (state.formStatus) {
+  switch (state.formUi.formStatus) {
     case 'checked':
       handleFeedback(state, form, feedback, input, i18n);
       break;

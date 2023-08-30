@@ -4,7 +4,7 @@ import i18next from 'i18next';
 import resources from '../locales/index.js';
 import axios from 'axios';
 import parse from '../utils/parser.js';
-import getProxyUrl from '../getProxyUrl.js';
+import getProxyUrl from '../utils/getProxyUrl.js';
 import getErrorMessage from '../handle errors/getErrorMessage.js';
 import { startPostsRefresher, stopPostsRefresher } from '../utils/postsRefresher.js';
 
@@ -32,15 +32,21 @@ const app = () => {
     feedback: document.querySelector('.feedback'),
     postsContainer: document.querySelector('.posts'),
     feedsContainer: document.querySelector('.feeds'),
+    modal: document.querySelector('#modal'),
   };
 
   const state = {
-    formStatus: null,
-    valid: null,
-    feedbackMessage: null,
+    formUi: {
+      formStatus: null,
+      valid: null,
+      feedbackMessage: null,
+      blockInputs: false,
+    },
+    postsUi: {
+      visitedPosts: [],
+    },
     feeds: [],
     posts: [],
-    blockInputs: false,
   };
 
   const i18n = i18next.createInstance();
@@ -57,9 +63,8 @@ const app = () => {
 
       elements.form.addEventListener('submit', (e) => {
         e.preventDefault();
-        stopPostsRefresher();
-        watchedState.blockInputs = true;
-        watchedState.formStatus = 'checking';
+        watchedState.formUi.blockInputs = true;
+        watchedState.formUi.formStatus = 'checking';
 
         const formData = new FormData(e.target);
         const url = formData.get('url').trim();
@@ -70,26 +75,28 @@ const app = () => {
           .then((response) => {
             const parsedData = parse(response.data.contents, 'xml', id);
             const { feed, posts } = parsedData;
-            watchedState.feeds.push({ ...feed, url });
-            urls.push(url);
-
             const newPosts = [...posts, ...state.posts];
 
+            watchedState.feeds.push({ ...feed, url });
             watchedState.posts = newPosts;
-            watchedState.valid = true;
-            watchedState.feedbackMessage = 'feedbackMessages.rssAdded';
+            watchedState.formUi.valid = true;
+            watchedState.formUi.feedbackMessage = 'feedbackMessages.rssAdded';
+            urls.push(url);
             id += 1;
+
+            stopPostsRefresher();
             startPostsRefresher(watchedState.posts, watchedState.feeds);
           })
           .catch((e) => {
-            watchedState.valid = false;
+            watchedState.formUi.valid = false;
             const feedbackMessage = getErrorMessage(e.message);
-            watchedState.feedbackMessage = feedbackMessage;
+            watchedState.formUi.feedbackMessage = feedbackMessage;
           })
           .finally(() => {
-            watchedState.formStatus = 'checked';
-            watchedState.formStatus = 'filling';
-            watchedState.blockInputs = false;
+            watchedState.formUi.formStatus = 'checked';
+            watchedState.formUi.formStatus = 'filling';
+            watchedState.formUi.blockInputs = false;
+            console.log(state);
           });
       });
     });

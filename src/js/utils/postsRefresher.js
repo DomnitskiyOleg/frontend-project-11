@@ -1,5 +1,5 @@
 import parse from './parser.js';
-import getProxyUrl from '../getProxyUrl.js';
+import getProxyUrl from './getProxyUrl.js';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -8,6 +8,7 @@ const postsRefresher = () => {
 
   const startPostsRefresher = (oldPosts, feeds) => {
     const requests = feeds.map(({ url }) => axios.get(getProxyUrl(url)));
+
     Promise.all(requests)
       .then((responses) => {
         const xmlTexts = responses.map((responses) => responses.data.contents);
@@ -15,17 +16,19 @@ const postsRefresher = () => {
         const updatedPosts = parsedData.map(({ posts }) => posts).flat();
 
         updatedPosts.forEach((updatedPost) => {
-          const filtered = oldPosts.filter(({ id }) => id === updatedPost.id);
+          const filtered = oldPosts.filter(({ feedId }) => feedId === updatedPost.feedId);
           const found = filtered.find(({ title }) => title === updatedPost.title);
           if (!found) {
+            console.log('bingooooooooooo!');
             oldPosts.push(updatedPost);
           }
         });
 
         timerId = setTimeout(() => startPostsRefresher(oldPosts, feeds), 5000);
       })
-      .catch(() => {
-        timerId = setTimeout(() => startPostsRefresher(oldPosts, feeds), 5000);
+      .catch((e) => {
+        console.error(e);
+        startPostsRefresher(oldPosts, feeds);
       });
   };
 

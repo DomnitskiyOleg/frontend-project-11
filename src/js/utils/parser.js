@@ -1,3 +1,5 @@
+let postId = 0;
+
 const generatePostsAndFeed = (xmlDoc, id) => {
   try {
     const feedHeader = xmlDoc.querySelector('title').textContent;
@@ -9,10 +11,9 @@ const generatePostsAndFeed = (xmlDoc, id) => {
       const title = item.querySelector('title').textContent.trim();
       const description = item.querySelector('description').textContent.trim();
       const link = item.querySelector('link').textContent.trim();
-
-      return { id, title, description, link };
+      postId += 1;
+      return { id: postId, feedId: id, title, description, link };
     });
-
     return { feed, posts };
   } catch {
     throw new Error('rssInvalid');

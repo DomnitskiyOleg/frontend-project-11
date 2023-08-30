@@ -12,10 +12,10 @@ export default (state, elements, i18n) => {
 
   const watchedState = onChange(state, (path, value) => {
     switch (path) {
-      case 'blockInputs':
+      case 'formUi.blockInputs':
         renderSubmitInputAvailability(elements, value);
         break;
-      case 'formStatus':
+      case 'formUi.formStatus':
         renderForm(elements, state, i18n);
 
         break;
