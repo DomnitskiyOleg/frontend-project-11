@@ -7,6 +7,7 @@ import parse from '../utils/parser.js';
 import getProxyUrl from '../utils/getProxyUrl.js';
 import getErrorMessage from '../handle errors/getErrorMessage.js';
 import { startPostsRefresher, stopPostsRefresher } from '../utils/postsRefresher.js';
+import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 
 yup.setLocale({
   mixed: {
@@ -43,7 +44,10 @@ const app = () => {
       blockInputs: false,
     },
     postsUi: {
-      visitedPosts: [],
+      visitedPostsId: [],
+    },
+    modalUi: {
+      postId: null,
     },
     feeds: [],
     posts: [],

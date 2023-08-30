@@ -1,3 +1,11 @@
+const articleClickHandler = (state) => (event) => {
+  const postId = event.target.dataset.id;
+  const visitedPostsId = state.postsUi.visitedPostsId;
+
+  state.modalUi.postId = postId;
+  if (!visitedPostsId.includes(postId)) visitedPostsId.push(postId);
+};
+
 export const renderFeeds = (state, elements, i18n) => {
   const { feedsContainer } = elements;
 
@@ -14,11 +22,12 @@ export const renderFeeds = (state, elements, i18n) => {
 
   state.feeds.forEach((feed) => {
     const li = document.createElement('li');
-    li.classList.add('list-group-item', 'border-0', 'border-end-0');
     const header = document.createElement('h3');
-    header.classList.add('h6', 'm-0');
     const paragr = document.createElement('p');
+
     paragr.classList.add('m-0', 'small', 'text-black-50');
+    li.classList.add('list-group-item', 'border-0', 'border-end-0');
+    header.classList.add('h6', 'm-0');
 
     header.textContent = feed.feedHeader;
     paragr.textContent = feed.description;
@@ -62,6 +71,7 @@ export const renderPosts = (state, elements, i18n) => {
     a.href = link;
     a.textContent = title;
     a.dataset.id = id;
+    a.setAttribute('target', '_blank');
 
     button.dataId = id;
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
@@ -69,7 +79,9 @@ export const renderPosts = (state, elements, i18n) => {
     button.dataset.id = id;
     button.dataset.bsToggle = 'modal';
     button.dataset.bsTarget = '#modal';
-    button.addEventListener('click', () => {});
+
+    button.addEventListener('click', articleClickHandler(state));
+    a.addEventListener('click', articleClickHandler(state));
     li.append(a, button);
     postsUl.append(li);
   });
@@ -131,4 +143,29 @@ export const renderSubmitInputAvailability = (elements, value) => {
   const { input, submitButton } = elements;
   input.readOnly = value;
   submitButton.disabled = value;
+};
+
+export const renderModal = (state, modal, i18n, postId) => {
+  const header = modal.querySelector('.modal-title');
+  const body = modal.querySelector('.modal-body');
+  const linkButton = modal.querySelector('.full-article');
+  const closeButton = modal.querySelector('.modal-close');
+  const post = state.posts.find(({ id }) => id === parseInt(postId));
+  const { title, description, link } = post;
+
+  header.textContent = title;
+  body.textContent = description;
+  linkButton.href = link;
+  linkButton.textContent = i18n.t('modalOpenButton');
+  closeButton.textContent = i18n.t('modalCloseButton');
+};
+
+export const renderVisitedPosts = (state, elements) => {
+  const visitedPostsId = state.postsUi.visitedPostsId;
+
+  visitedPostsId.forEach((id) => {
+    const article = elements.postsContainer.querySelector(`a[data-id="${id}"]`);
+    article.classList.replace('fw-bold', 'fw-normal');
+    article.classList.add('link-secondary');
+  });
 };

@@ -11,6 +11,8 @@ export default {
     example: 'Пример: https://ru.hexlet.io/lessons.rss',
     submitButton: 'Добавить',
     previewButton: 'Просмотр',
+    modalOpenButton: 'Читать полностью',
+    modalCloseButton: 'Закрыть',
     feedbackMessages: {
       rssAdded: 'RSS успешно загружен',
       rssExist: 'RSS уже существует',

@@ -5,6 +5,8 @@ import {
   renderPosts,
   renderStaticTexts,
   renderSubmitInputAvailability,
+  renderModal,
+  renderVisitedPosts,
 } from '../renders/rendering.js';
 
 export default (state, elements, i18n) => {
@@ -17,13 +19,18 @@ export default (state, elements, i18n) => {
         break;
       case 'formUi.formStatus':
         renderForm(elements, state, i18n);
-
         break;
       case 'posts':
-        renderPosts(state, elements, i18n);
+        renderPosts(watchedState, elements, i18n);
         break;
       case 'feeds':
-        renderFeeds(state, elements, i18n);
+        renderFeeds(watchedState, elements, i18n);
+        break;
+      case 'modalUi.postId':
+        renderModal(watchedState, elements.modal, i18n, value);
+        break;
+      case 'postsUi.visitedPostsId':
+        renderVisitedPosts(watchedState, elements);
         break;
       default:
         break;
