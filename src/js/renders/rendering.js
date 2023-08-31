@@ -92,8 +92,9 @@ export const renderPosts = (state, elements, i18n) => {
 };
 
 export const renderStaticTexts = (elements, i18n) => {
-  const { header, input, leader, example, submitButton, label } = elements;
-
+  const {
+    header, input, leader, example, submitButton, label,
+  } = elements;
   header.textContent = i18n.t('header');
   input.placeholder = i18n.t('label');
   leader.textContent = i18n.t('leader');

@@ -1,3 +1,7 @@
+## RSS aggregator!
+
+### Application that follows rss flows and shows updates
+
 ## Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/DomnitskiyOleg/frontend-project-11/workflows/hexlet-check/badge.svg)](https://github.com/DomnitskiyOleg/frontend-project-11/actions)

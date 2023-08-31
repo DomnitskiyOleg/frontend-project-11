@@ -10,4 +10,3 @@ rules:
   no-console: off
   import/extensions: off
   no-param-reassign: off
-  object-curly-newline: off
