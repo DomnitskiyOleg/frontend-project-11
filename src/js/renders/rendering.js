@@ -1,6 +1,6 @@
 const articleClickHandler = (state) => (event) => {
   const postId = event.target.dataset.id;
-  const visitedPostsId = state.postsUi.visitedPostsId;
+  const { visitedPostsId } = state.postsUi;
 
   state.modalUi.postId = postId;
   if (!visitedPostsId.includes(postId)) visitedPostsId.push(postId);
@@ -121,7 +121,7 @@ const handleFeedback = (state, form, feedback, input, i18n) => {
       }
       break;
     default:
-      break;
+      throw new Error(`unknown ui state ${state.formUi.valid}`);
   }
 };
 
@@ -135,6 +135,8 @@ export const renderForm = (elements, state, i18n) => {
     case 'checking':
       feedback.textContent = '';
       input.classList.remove('is-invalid');
+      break;
+    default:
       break;
   }
 };
@@ -150,7 +152,7 @@ export const renderModal = (state, modal, i18n, postId) => {
   const body = modal.querySelector('.modal-body');
   const linkButton = modal.querySelector('.full-article');
   const closeButton = modal.querySelector('.modal-close');
-  const post = state.posts.find(({ id }) => id === parseInt(postId));
+  const post = state.posts.find(({ id }) => id === parseInt(postId, 10));
   const { title, description, link } = post;
 
   header.textContent = title;
@@ -161,7 +163,7 @@ export const renderModal = (state, modal, i18n, postId) => {
 };
 
 export const renderVisitedPosts = (state, elements) => {
-  const visitedPostsId = state.postsUi.visitedPostsId;
+  const { visitedPostsId } = state.postsUi;
 
   visitedPostsId.forEach((id) => {
     const article = elements.postsContainer.querySelector(`a[data-id="${id}"]`);

@@ -1,6 +1,6 @@
 import '../css/styles.css';
-import app from './app/app.js';
-import addIcon from './assets/icon.js';
+import app from './app/app';
+import addIcon from './assets/icon';
 
 addIcon();
 app();

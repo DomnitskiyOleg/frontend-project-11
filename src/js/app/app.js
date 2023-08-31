@@ -1,13 +1,13 @@
 import axios from 'axios';
 import * as yup from 'yup';
 import i18next from 'i18next';
-import watch from './view.js';
-import resources from '../locales/index.js';
-import parse from '../utils/parser.js';
-import getProxyUrl from '../utils/getProxyUrl.js';
-import getErrorMessage from '../handle errors/getErrorMessage.js';
-import { startPostsRefresher, stopPostsRefresher } from '../utils/postsRefresher.js';
-import 'bootstrap/dist/js/bootstrap.min.js';
+import watch from './view';
+import resources from '../locales/index';
+import parse from '../utils/parser';
+import getProxyUrl from '../utils/getProxyUrl';
+import getErrorMessage from '../handle errors/getErrorMessage';
+import { startPostsRefresher, stopPostsRefresher } from '../utils/postsRefresher';
+import 'bootstrap/dist/js/bootstrap.min';
 
 yup.setLocale({
   mixed: {
@@ -65,12 +65,12 @@ const app = () => {
     .then(() => {
       const watchedState = watch(state, elements, i18n);
 
-      elements.form.addEventListener('submit', (e) => {
-        e.preventDefault();
+      elements.form.addEventListener('submit', (event) => {
+        event.preventDefault();
         watchedState.formUi.blockInputs = true;
         watchedState.formUi.formStatus = 'checking';
 
-        const formData = new FormData(e.target);
+        const formData = new FormData(event.target);
         const url = formData.get('url').trim();
         const schema = getSchema(urls);
         schema
@@ -100,7 +100,6 @@ const app = () => {
             watchedState.formUi.formStatus = 'checked';
             watchedState.formUi.formStatus = 'filling';
             watchedState.formUi.blockInputs = false;
-            console.log(state);
           });
       });
     });

@@ -9,10 +9,18 @@ const generatePostsAndFeed = (xmlDoc, id) => {
 
     const posts = Array.from(items).map((item) => {
       const title = item.querySelector('title').textContent.trim();
-      const description = item.querySelector('description').textContent.trim();
+      const postDescription = item
+        .querySelector('description')
+        .textContent.trim();
       const link = item.querySelector('link').textContent.trim();
       postId += 1;
-      return { id: postId, feedId: id, title, description, link };
+      return {
+        id: postId,
+        feedId: id,
+        title,
+        description: postDescription,
+        link,
+      };
     });
     return { feed, posts };
   } catch {

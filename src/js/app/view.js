@@ -7,7 +7,7 @@ import {
   renderSubmitInputAvailability,
   renderModal,
   renderVisitedPosts,
-} from '../renders/rendering.js';
+} from '../renders/rendering';
 
 export default (state, elements, i18n) => {
   renderStaticTexts(elements, i18n);
