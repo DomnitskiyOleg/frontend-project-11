@@ -42,6 +42,7 @@ export const renderFeeds = (state, elements, i18n) => {
 };
 
 export const renderPosts = (state, elements, i18n) => {
+  console.log('render posts');
   const { postsContainer } = elements;
   const postsHeader = document.createElement('h2');
   const postsCard = document.createElement('div');

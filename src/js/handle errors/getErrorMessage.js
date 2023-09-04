@@ -1,7 +1,7 @@
 export default (error) => {
   const errors = {
     rssExist: 'feedbackMessages.rssExist',
-    'Network Error': 'feedbackMessages.networkError',
+    network: 'feedbackMessages.networkError',
     urlInvalid: 'feedbackMessages.urlInvalid',
     rssInvalid: 'feedbackMessages.rssInvalid',
     unknown: 'feedbackMessages.unknownError',
