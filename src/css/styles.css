@@ -1,7 +1,7 @@
-@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+/* @import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../../node_modules/bootstrap/dist/css/bootstrap-grid.min.css';
-@import '../../node_modules/bootstrap/dist/css/bootstrap-utilities.min.css';
+@import '../../node_modules/bootstrap/dist/css/bootstrap-utilities.min.css'; */
 
 html {
-    font-size:smaller;
+    font-size: smaller;
 }
