@@ -1,11 +1,3 @@
-const articleClickHandler = (state) => (event) => {
-  const postId = event.target.dataset.id;
-  const { visitedPostsId } = state.postsUi;
-
-  state.modalUi.postId = postId;
-  if (!visitedPostsId.includes(postId)) visitedPostsId.push(postId);
-};
-
 export const renderFeeds = (state, elements, i18n) => {
   const { feedsContainer } = elements;
 
@@ -42,7 +34,6 @@ export const renderFeeds = (state, elements, i18n) => {
 };
 
 export const renderPosts = (state, elements, i18n) => {
-  console.log('render posts');
   const { postsContainer } = elements;
   const postsHeader = document.createElement('h2');
   const postsCard = document.createElement('div');
@@ -81,8 +72,6 @@ export const renderPosts = (state, elements, i18n) => {
     button.dataset.bsToggle = 'modal';
     button.dataset.bsTarget = '#modal';
 
-    button.addEventListener('click', articleClickHandler(state));
-    a.addEventListener('click', articleClickHandler(state));
     li.append(a, button);
     postsUl.append(li);
   });

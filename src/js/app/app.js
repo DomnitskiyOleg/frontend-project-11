@@ -64,6 +64,19 @@ const app = () => {
     })
     .then(() => {
       const watchedState = watch(state, elements, i18n);
+
+      elements.postsContainer.addEventListener('click', (event) => {
+        const tag = event.target.tagName;
+
+        if (tag === 'BUTTON' || tag === 'A') {
+          const postId = event.target.dataset.id;
+          const { visitedPostsId } = watchedState.postsUi;
+
+          watchedState.modalUi.postId = postId;
+          if (!visitedPostsId.includes(postId)) visitedPostsId.push(postId);
+        }
+      });
+
       elements.form.addEventListener('submit', (event) => {
         event.preventDefault();
         watchedState.formUi.blockInputs = true;

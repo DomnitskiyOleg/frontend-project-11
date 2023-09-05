@@ -5,7 +5,6 @@ import setId from './setId';
 import getProxyUrl from './getProxyUrl';
 
 const startPostsRefresher = (oldPosts, feeds) => {
-  console.log('refreshing');
   const xmlPromises = feeds.map(({ url }) => axios.get(getProxyUrl(url))
     .then((response) => response.data.contents));
 
@@ -15,9 +14,11 @@ const startPostsRefresher = (oldPosts, feeds) => {
         const { feed, posts } = parse(xml);
         return setId(feed, posts, id);
       });
+
       const updatedPosts = parsedData
         .map(({ postsWithId }) => postsWithId)
         .flat();
+
       updatedPosts.forEach((updatedPost) => {
         const filtered = oldPosts.filter(
           ({ feedId }) => feedId === updatedPost.feedId,
