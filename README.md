@@ -34,7 +34,7 @@ make server
 ```
 ### Demonstration
 ![demonstration](https://github.com/DomnitskiyOleg/frontend-project-11/assets/119673815/775244d5-ad66-48f2-af34-78f5e4308d1c)
-
+---------------------------------------------------------------------------------------------------------------------------
 ### Link
 
 https://frontend-project-11-tawny-two.vercel.app/
