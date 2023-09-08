@@ -2,15 +2,25 @@
 ### Application that follows rss flows and shows updates
 _________________________________________________________________________________________________________________________
 
-
-# Hexlet tests and linter status: #left-column
+<table>
+<tr>
+<th> # Hexlet tests and linter status: </th>
+<th> # Maintainability check:  </th>
+</tr>
+<tr>
+<td>
 
 [![Actions Status](https://github.com/DomnitskiyOleg/frontend-project-11/workflows/hexlet-check/badge.svg)](https://github.com/DomnitskiyOleg/frontend-project-11/actions)
 
-
-# Maintainability check: #right-column
+</td>
+<td>
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/690fc1c357df35aa2489/maintainability)](https://codeclimate.com/github/DomnitskiyOleg/frontend-project-11/maintainability)
+
+</td>
+</tr>
+</table>
+
 
 ### To install 
 ```
@@ -28,31 +38,4 @@ make server
 https://frontend-project-11-tawny-two.vercel.app/
 ___________________________________________________________________________________________________________________________
 
-<table>
-<tr>
-<th> Good </th>
-<th> Bad </th>
-</tr>
-<tr>
-<td>
 
-```c++
-int foo() {
-    int result = 4;
-    return result;
-}
-```
-
-</td>
-<td>
-
-```c++
-int foo() { 
-    int x = 4;
-    return x;
-}
-```
-
-</td>
-</tr>
-</table>
