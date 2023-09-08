@@ -4,8 +4,8 @@ ________________________________________________________________________________
 
 <table>
 <tr>
-<th> # Hexlet tests and linter status: </th>
-<th> # Maintainability check:  </th>
+<th>  Hexlet tests and linter status: </th>
+<th>  Maintainability check:          </th>
 </tr>
 <tr>
 <td>
