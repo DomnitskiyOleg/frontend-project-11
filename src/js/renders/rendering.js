@@ -94,7 +94,7 @@ export const renderStaticTexts = (elements, i18n) => {
 };
 
 const handleFeedback = (state, form, feedback, input, i18n) => {
-  switch (state.formUi.valid) {
+  switch (state.formUi.isValid) {
     case true:
       feedback.classList.replace('text-danger', 'text-success');
       form.reset();
@@ -117,13 +117,19 @@ const handleFeedback = (state, form, feedback, input, i18n) => {
 };
 
 export const renderForm = (elements, state, i18n) => {
-  const { form, input, feedback } = elements;
+  const {
+    form, input, feedback, submitButton,
+  } = elements;
 
   switch (state.formUi.formStatus) {
     case 'checked':
       handleFeedback(state, form, feedback, input, i18n);
+      input.readOnly = false;
+      submitButton.disabled = false;
       break;
     case 'checking':
+      input.readOnly = true;
+      submitButton.disabled = true;
       feedback.textContent = '';
       input.classList.remove('is-invalid');
       break;
@@ -154,9 +160,9 @@ export const renderModal = (state, modal, i18n, postId) => {
 };
 
 export const renderVisitedPosts = (state, elements) => {
-  const { visitedPostsId } = state.postsUi;
+  const { visitedPostsIds } = state.generalUi;
 
-  visitedPostsId.forEach((id) => {
+  visitedPostsIds.forEach((id) => {
     const article = elements.postsContainer.querySelector(`a[data-id="${id}"]`);
     article.classList.replace('fw-bold', 'fw-normal');
     article.classList.add('link-secondary');

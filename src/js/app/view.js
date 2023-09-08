@@ -22,14 +22,15 @@ export default (state, elements, i18n) => {
         break;
       case 'posts':
         renderPosts(watchedState, elements, i18n);
+        renderVisitedPosts(watchedState, elements);
         break;
       case 'feeds':
         renderFeeds(watchedState, elements, i18n);
         break;
-      case 'modalUi.postId':
+      case 'generalUi.postIdForModal':
         renderModal(watchedState, elements.modal, i18n, value);
         break;
-      case 'postsUi.visitedPostsId':
+      case 'generalUi.visitedPostsIds':
         renderVisitedPosts(watchedState, elements);
         break;
       default:

@@ -10,8 +10,6 @@ import getErrorMessage from '../handle errors/getErrorMessage';
 import startPostsRefresher from '../utils/postsRefresher';
 import 'bootstrap/dist/js/bootstrap.min';
 
-const getSchema = (urls) => yup.string().trim().url().notOneOf(urls);
-
 const app = () => {
   yup.setLocale({
     mixed: {
@@ -22,6 +20,7 @@ const app = () => {
     },
   });
 
+  const baseSchema = yup.string().trim().url();
   const elements = {
     header: document.querySelector('h1'),
     leader: document.querySelector('.lead'),
@@ -36,18 +35,15 @@ const app = () => {
     modal: document.querySelector('#modal'),
   };
 
-  const state = {
+  const initialState = {
     formUi: {
-      formStatus: null,
-      valid: false,
+      formStatus: 'idle',
+      isValid: false,
       feedbackMessage: null,
-      blockInputs: false,
     },
-    postsUi: {
-      visitedPostsId: [],
-    },
-    modalUi: {
-      postId: null,
+    generalUi: {
+      visitedPostsIds: new Set(),
+      postIdForModal: null,
     },
     feeds: [],
     posts: [],
@@ -63,30 +59,29 @@ const app = () => {
       resources,
     })
     .then(() => {
-      const watchedState = watch(state, elements, i18n);
+      const watchedState = watch(initialState, elements, i18n);
 
       elements.postsContainer.addEventListener('click', (event) => {
         const tag = event.target.tagName;
 
         if (tag === 'BUTTON' || tag === 'A') {
           const postId = event.target.dataset.id;
-          const { visitedPostsId } = watchedState.postsUi;
+          const { visitedPostsIds } = watchedState.generalUi;
 
-          watchedState.modalUi.postId = postId;
-          if (!visitedPostsId.includes(postId)) visitedPostsId.push(postId);
+          watchedState.generalUi.postIdForModal = postId;
+          visitedPostsIds.add(postId);
         }
       });
 
       elements.form.addEventListener('submit', (event) => {
         event.preventDefault();
-        watchedState.formUi.blockInputs = true;
         watchedState.formUi.formStatus = 'checking';
 
         const formData = new FormData(event.target);
         const url = formData.get('url').trim();
-        const urls = state.feeds.map((feed) => feed.url);
-        const schema = getSchema(urls);
-        schema
+        const urls = watchedState.feeds.map((feed) => feed.url);
+
+        baseSchema.notOneOf(urls)
           .validate(url)
           .then(() => axios.get(getProxyUrl(url)))
           .then((response) => {
@@ -95,12 +90,12 @@ const app = () => {
 
             postsWithId.forEach((post) => watchedState.posts.push(post));
             watchedState.feeds.push({ ...feedWithId, url });
-            watchedState.formUi.valid = true;
+            watchedState.formUi.isValid = true;
             watchedState.formUi.feedbackMessage = 'feedbackMessages.rssAdded';
             id += 1;
           })
           .catch((e) => {
-            watchedState.formUi.valid = false;
+            watchedState.formUi.isValid = false;
             const feedbackMessage = e.message === 'Network Error'
               ? getErrorMessage('network')
               : getErrorMessage(e.message);
@@ -108,7 +103,6 @@ const app = () => {
           })
           .finally(() => {
             watchedState.formUi.formStatus = 'checked';
-            watchedState.formUi.blockInputs = false;
           });
       });
       startPostsRefresher(watchedState.posts, watchedState.feeds);
