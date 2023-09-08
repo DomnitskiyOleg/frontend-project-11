@@ -14,8 +14,6 @@
 ```
 git clone https://github.com/DomnitskiyOleg/frontend-project-11.git
 make install
-make build
-make server
 ```
 # For local run 
 ```
